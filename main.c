@@ -10,6 +10,7 @@ char **g_str;
 */
 int main(int argc, char **argv)
 {
+	static int lineflag = 1;
 	char *file_name;
 	char buffer[1024];
 	char *string_array[200];
@@ -23,9 +24,12 @@ int main(int argc, char **argv)
 	file_name = argv[1];
 	g_str = string_array;
 
+
+
 	read_file(file_name, buffer);
 	parse_file(buffer, g_str);
-	check_bytecode(&stack);
-	free_list(stack);
+	check_bytecode(&stack, lineflag);
+ 	free_list(stack);
 	return (0);
 }
+

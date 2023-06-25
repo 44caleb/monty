@@ -47,14 +47,7 @@ void read_file(char *str, char *buffer)
 		fprintf(stderr, "Error: could not read file %s\n", str);
 		exit(EXIT_FAILURE);
 	}
-	if (buffer[bytesread - 1] == '\n')
-	{
-		buffer[bytesread - 1] = '\0';
-	}
-	else
-	{
-		buffer[bytesread] = '\0';
-	}
+	buffer[bytesread] = '\0';
 	close(fd);
 
 }
@@ -67,41 +60,46 @@ void read_file(char *str, char *buffer)
 */
 void parse_file(char *buffer, char **string_array)
 {
-	int i = 0, j = 0;
-	char *ptr;
+	int j = 0, k = 0, i = 0;
+	char delim[] = " "; char new_buffer[1024];
+	char *token;
 
-	while (buffer[i] != '\0')
+	while (buffer[j] != '\0')
 	{
-		if (buffer[i] == ' ' || buffer[i] == '\n')
+		if (buffer[j] == '\n')
 		{
-			while (buffer[i + 1] == ' ' || buffer[i + 1] == '\n')
-			{
-				buffer[i] = '\0';
-				i++;
-			}
-			if (buffer[i + 1] == '\0')
-			{
-				break;
-			}
-			buffer[i] = '\0';
-			i++;
-			ptr = &buffer[i];
-			string_array[j++] = ptr;
+			new_buffer[k++] = buffer[j++];
+			new_buffer[k++] = ' ';
 		}
-		else
+		if (buffer[j] != '\n' && buffer[j + 1] == '\n')
 		{
-			i++;
+			new_buffer[k++] = buffer[j++];
+			new_buffer[k++] = ' ';
+		}
+		if (buffer[j] != '\n')
+		{
+			new_buffer[k++] = buffer[j++];
 		}
 	}
-	string_array[j] = NULL;
+	new_buffer[k] = '\0';
+	token = strtok(new_buffer, delim);
+	string_array[i++] = token;
+
+	while (token != NULL)
+	{
+		token = strtok(NULL, delim);
+		string_array[i++] = token;
+	}
+	string_array[i] = NULL;
 }
 
 /**
 *check_bytecode - checks and executes bytecode instructions
 *@stack: pointer to the top of the stack
+*@lineflag: signifies a newline if +ve, else 0
 *Return: nothing
 */
-void check_bytecode(stack_t **stack)
+void check_bytecode(stack_t **stack, int lineflag)
 {
 	int line_number = 1, i = 0;
 	instruction_t opcodes[] = {
@@ -109,27 +107,35 @@ void check_bytecode(stack_t **stack)
 	{"swap", _swap}, {"add", _add}, {"sub", _sub}, {"mul", _mul},
 	{"div", _div}, {"rotr", _rotr}, {"mod", _mod}, {"rotl", _rotl},
 	{"pstr", _pstr}, {"pchar", _pchar}, {"nop", _nop},
-	{NULL, NULL}
-	};
+	{NULL, NULL}};
 
 		while (*g_str != NULL)
 		{
-			if (strcmp(opcodes[i].opcode, *g_str) == 0)
+			if (strcmp("\n", *g_str) == 0)
 			{
-				opcodes[i].f(stack, line_number);
-				line_number++;
-				g_str++;
-				i = 0; /* reset value of i after finding function */
+				lineflag++; line_number++; g_str++; i = 0; continue;
 			}
-			else
+			if (lineflag > 0)
 			{
-				i++;
+				while (opcodes[i].opcode != NULL)
+				{
+					if (strcmp(opcodes[i].opcode, *g_str) == 0)
+					{
+						opcodes[i].f(stack, line_number);
+						lineflag = 0; i = 0; break;
+					}
+					else
+					{
+						i++;
+					}
+					if (opcodes[i].opcode == NULL)
+					{
+						fprintf(stderr, "L%d: unknown instruction %s\n", line_number, *g_str);
+						exit(EXIT_FAILURE);
+					}
+				}
 			}
-			if (opcodes[i].opcode == NULL)
-			{
-				fprintf(stderr, "L%d: unknown instruction %s\n", line_number, *g_str);
-				exit(EXIT_FAILURE);
-			}
+			g_str++;
 		}
 }
 

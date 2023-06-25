@@ -57,7 +57,7 @@ extern char **g_str;
 int _atoi(char *str);
 void read_file(char *str, char *buffer);
 void parse_file(char *buffer, char **string_array);
-void check_bytecode(stack_t **stack);
+void check_bytecode(stack_t **stack, int lineflag);
 stack_t *add_node(stack_t **stack, int arg);
 int node_len(stack_t *stack);
 void _push(stack_t **stack, unsigned int line_number);
