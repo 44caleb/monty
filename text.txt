@@ -1,41 +1,5 @@
-push 0   yes i pushed
-        push 1 yes i pushed again
-
-
-
-pall  fdfgdgfgf
-
-
-
-pint                          asdasdsd
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-caleb
-
+push c
+push 2
+push 3
+pall
 

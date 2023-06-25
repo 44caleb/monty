@@ -10,7 +10,7 @@ void _push(stack_t **stack, unsigned int line_number)
 {
 	int arg;
 
-	if (*(g_str + 1) == NULL || (_atoi(*(g_str + 1)) == NOT_STRING))
+	if (*(g_str + 1) == NULL || (isnumber(*(g_str + 1)) == 0))
 	{
 		fprintf(stderr, "L%d: usage: push integer\n", line_number);
 		if (stack)

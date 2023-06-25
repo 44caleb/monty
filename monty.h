@@ -10,6 +10,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <string.h>
+#include <ctype.h>
 
 
 
@@ -77,7 +78,7 @@ void _pchar(stack_t **stack, unsigned int line_number);
 void _pstr(stack_t **stack, unsigned int line_number);
 void free_list(stack_t *stack);
 void add_end(stack_t **stack, int n);
-
+int isnumber(char *str);
 
 
 
