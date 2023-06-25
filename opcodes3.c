@@ -47,6 +47,10 @@ void _sub(stack_t **stack, unsigned int line_number)
 	if (node_len(*stack) < 2)
 	{
 		fprintf(stderr, "L%d: can't sub, stack too short\n", line_number);
+		if (stack)
+		{
+			free_list(*stack);
+		}
 		exit(EXIT_FAILURE);
 	}
 
@@ -72,6 +76,10 @@ void _div(stack_t **stack, unsigned int line_number)
 	if (node_len(*stack) < 2)
 	{
 		fprintf(stderr, "L%d: can't div, stack too short\n", line_number);
+		if (stack)
+		{
+			free_list(*stack);
+		}
 		exit(EXIT_FAILURE);
 	}
 
@@ -80,6 +88,10 @@ void _div(stack_t **stack, unsigned int line_number)
 	if (node_1->n == 0)
 	{
 		fprintf(stderr, "L%d: division by zero\n", line_number);
+		if (stack)
+		{
+			free_list(*stack);
+		}
 		exit(EXIT_FAILURE);
 	}
 	div = (node_2->n) / (node_1->n);
@@ -104,6 +116,10 @@ void _mul(stack_t **stack, unsigned int line_number)
 	if (node_len(*stack) < 2)
 	{
 		fprintf(stderr, "L%d: can't mul, stack too short\n", line_number);
+		if (stack)
+		{
+			free_list(*stack);
+		}
 		exit(EXIT_FAILURE);
 	}
 
@@ -130,6 +146,10 @@ void _mod(stack_t **stack, unsigned int line_number)
 	if (node_len(*stack) < 2)
 	{
 		fprintf(stderr, "L%d: can't mod, stack too short\n", line_number);
+		if (stack)
+		{
+			free_list(*stack);
+		}
 		exit(EXIT_FAILURE);
 	}
 
@@ -138,6 +158,10 @@ void _mod(stack_t **stack, unsigned int line_number)
 	if (node_1->n == 0)
 	{
 		fprintf(stderr, "L%d: division by zero\n", line_number);
+		if (stack)
+		{
+			free_list(*stack);
+		}
 		exit(EXIT_FAILURE);
 	}
 	mod = (node_2->n) % (node_1->n);

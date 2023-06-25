@@ -131,6 +131,10 @@ void check_bytecode(stack_t **stack, int lineflag)
 					if (opcodes[i].opcode == NULL)
 					{
 						fprintf(stderr, "L%d: unknown instruction %s\n", line_number, *g_str);
+						if (stack)
+						{
+							free_list(*stack);
+						}
 						exit(EXIT_FAILURE);
 					}
 				}
@@ -161,6 +165,10 @@ void add_end(stack_t **stack, int n)
 	if (new == NULL)
 	{
 		fprintf(stderr, "Error: malloc failed\n");
+		if (stack)
+		{
+			free_list(*stack);
+		}
 		exit(EXIT_FAILURE);
 	}
 	new->n = n;

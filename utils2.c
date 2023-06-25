@@ -13,6 +13,10 @@ stack_t *add_node(stack_t **stack, int arg)
 	if (new == NULL)
 	{
 		fprintf(stderr, "Error: malloc failed\n");
+		if (stack)
+		{
+			free_list(*stack);
+		}
 		exit(EXIT_FAILURE);
 	}
 

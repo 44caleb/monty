@@ -12,9 +12,11 @@ void _push(stack_t **stack, unsigned int line_number)
 
 	if (*(g_str + 1) == NULL || (_atoi(*(g_str + 1)) == NOT_STRING))
 	{
-		printf("ERROR currently at instruction ....%s\n", *g_str);
-		printf("ERROR and the next instruction is ....%s\n", *(g_str + 1));
 		fprintf(stderr, "L%d: usage: push integer\n", line_number);
+		if (stack)
+		{
+			free_list(*stack);
+		}
 		exit(EXIT_FAILURE);
 	}
 	else
@@ -60,6 +62,10 @@ void _swap(stack_t **stack, unsigned int line_number)
 	if (node_len(*stack) < 2)
 	{
 		fprintf(stderr, "L%d: can't swap, stack too short\n", line_number);
+		if (stack)
+		{
+			free_list(*stack);
+		}
 		exit(EXIT_FAILURE);
 	}
 
@@ -92,6 +98,10 @@ void _pop(stack_t **stack, unsigned int line_number)
 	if (node_1 == NULL)
 	{
 		fprintf(stderr, "L%d: can't pop an empty stack\n", line_number);
+		if (stack)
+		{
+			free_list(*stack);
+		}
 		exit(EXIT_FAILURE);
 	}
 	node_2 = node_1->next;
@@ -125,6 +135,10 @@ void _pint(stack_t **stack, unsigned int line_number)
 	if (node_1 == NULL)
 	{
 		fprintf(stderr, "L%d: can't pint, stack empty\n", line_number);
+		if (stack)
+		{
+			free_list(*stack);
+		}
 		exit(EXIT_FAILURE);
 	}
 

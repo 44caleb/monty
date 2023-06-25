@@ -14,6 +14,10 @@ void _add(stack_t **stack, unsigned int line_number)
 	if (node_len(*stack) < 2)
 	{
 		fprintf(stderr, "L%d: can't add, stack too short\n", line_number);
+		if (stack)
+		{
+			free_list(*stack);
+		}
 		exit(EXIT_FAILURE);
 	}
 
@@ -101,6 +105,10 @@ void _pchar(stack_t **stack, unsigned int line_number)
 	if (ptr == NULL)
 	{
 		printf("L%d: can't pchar, stack empty\n", line_number);
+		if (stack)
+		{
+			free_list(*stack);
+		}
 		exit(EXIT_FAILURE);
 	}
 	letter = ptr->n;
@@ -108,7 +116,12 @@ void _pchar(stack_t **stack, unsigned int line_number)
 	if (letter > 127 || letter < 0)
 	{
 		printf("L%d: can't pchar, value out of range\n", line_number);
+		if (stack)
+		{
+			free_list(*stack);
+		}
 		exit(EXIT_FAILURE);
 	}
 	printf("%c\n", letter);
 }
+
