@@ -22,7 +22,7 @@ void _push(stack_t **stack, unsigned int line_number)
 	else
 	{
 		g_str++;
-		arg = _atoi(*(g_str));
+		arg = atoi(*(g_str));
 		*stack = add_node(stack, arg);
 	}
 }
